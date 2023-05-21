@@ -42,7 +42,8 @@ anlegen von tsconfig.json
         "module": "commonjs",
         "outDir": "dist",
         "strict": true,
-        "forceConsistentCasingInFileNames": true
+        "forceConsistentCasingInFileNames": true,
+        "esModuleInterop": true
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules", "dist"]
@@ -54,4 +55,5 @@ ergänzung in package.json
 
 ```
 "dev": "ts-node-dev --respawn --transpile-only src/app/index.ts",
+"test" : "jest"
 ```
