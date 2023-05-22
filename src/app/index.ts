@@ -1,2 +1,4 @@
-console.log("hello world");
-console.log("in");
+import { v4 } from "uuid";
+import { arrayPlayground } from "./examples/array_stuff";
+
+arrayPlayground();
