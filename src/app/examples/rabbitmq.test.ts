@@ -8,6 +8,7 @@ describe("consumeOffers", () => {
 
     it("should consume offers from RabbitMQ", async () => {
         const mockConsoleLog = jest.spyOn(console, "log");
+        const mockHandler = jest.fn();
         const mockChannel: any = {
             consume: jest
                 .fn()
@@ -29,7 +30,7 @@ describe("consumeOffers", () => {
 
         (amqplib.connect as jest.Mock).mockResolvedValue(mockConnection);
 
-        await sut.consumeOffers("testserver");
+        await sut.consumeOffers("testserver", mockHandler);
 
         expect(amqplib.connect).toHaveBeenCalledWith("testserver");
         expect(mockConnection.createChannel).toHaveBeenCalled();
@@ -37,11 +38,8 @@ describe("consumeOffers", () => {
             "offers",
             expect.any(Function)
         );
-        expect(mockConsoleLog).toHaveBeenCalledWith({
-            id: 1,
-            title: "Offer 1",
-        });
-
+        expect(mockHandler).toHaveBeenCalled();
+        expect(mockHandler).toHaveBeenCalledWith({ id: 1, title: "Offer 1" });
         mockConsoleLog.mockRestore();
     });
 });
