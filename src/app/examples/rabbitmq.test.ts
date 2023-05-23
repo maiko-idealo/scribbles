@@ -6,10 +6,14 @@ jest.mock("amqplib");
 describe("consumeOffers", () => {
     const sut = ConsumeOffers;
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     it("should consume offers from RabbitMQ", async () => {
-        const mockConsoleLog = jest.spyOn(console, "log");
         const mockHandler = jest.fn();
         const mockChannel: any = {
+            ack: jest.fn(),
             consume: jest
                 .fn()
                 .mockImplementation(
@@ -38,8 +42,8 @@ describe("consumeOffers", () => {
             "offers",
             expect.any(Function)
         );
+        expect(mockChannel.ack).toHaveBeenCalled();
         expect(mockHandler).toHaveBeenCalled();
         expect(mockHandler).toHaveBeenCalledWith({ id: 1, title: "Offer 1" });
-        mockConsoleLog.mockRestore();
     });
 });

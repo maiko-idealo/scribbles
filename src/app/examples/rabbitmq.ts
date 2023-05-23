@@ -8,6 +8,7 @@ export const consumeOffers = async (serverUrl: string, handler: Function) => {
         if (message && message.content) {
             const data = JSON.parse(message?.content.toString());
             handler(data);
+            channel.ack(message);
         }
     });
 };
